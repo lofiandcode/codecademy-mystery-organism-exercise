@@ -31,14 +31,22 @@ const pAequorFactory = (specimenNum, dna) => {
       })
       const percentSharedBases = Math.round((sharedBases.length/this.dna.length) * 100);
       return `Specimen #${this.specimenNum} and specimen #${object.specimenNum} have ${percentSharedBases}% DNA in common.`;
+    },
+    willLikelySurvive () {
+      const onlyCGBases = this.dna.filter(base => (base === 'C' || base === 'G'));
+      const percentCG = Math.round((onlyCGBases.length/this.dna.length) * 100);
+      console.log(percentCG);
+      return percentCG >= 60;
     }
   };
 };
 const newPAequor1 = pAequorFactory(1, mockUpStrand())
 const newPAequor2 = pAequorFactory(2, mockUpStrand())
-console.log(newPAequor1.compare(newPAequor2));
+// console.log(newPAequor1.compare(newPAequor2));
+
+console.log(newPAequor1.willLikelySurvive());
 console.log(newPAequor1);
-console.log(newPAequor2);
+// console.log(newPAequor2);
 // newPAequor1.mutate();
 // console.log(newPAequor1);
 
