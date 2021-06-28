@@ -16,9 +16,31 @@ const mockUpStrand = () => {
 const pAequorFactory = (specimenNum, dna) => {
   return {
     specimenNum,
-    dna
+    dna,
+    mutate () {
+      const randBaseIndex = Math.floor(Math.random() * this.dna.length)
+      let newBase = returnRandBase();
+      while (newBase === this.dna[randBaseIndex]) {
+        newBase = returnRandBase();
+      }
+      this.dna[randBaseIndex] = newBase;
+    },
+    compare (object) {
+      const sharedBases = object.dna.filter((base, index) => {
+        return base === this.dna[index];
+      })
+      const percentSharedBases = Math.round((sharedBases.length/this.dna.length) * 100);
+      return `Specimen #${this.specimenNum} and specimen #${object.specimenNum} have ${percentSharedBases}% DNA in common.`;
+    }
   };
 };
+const newPAequor1 = pAequorFactory(1, mockUpStrand())
+const newPAequor2 = pAequorFactory(2, mockUpStrand())
+console.log(newPAequor1.compare(newPAequor2));
+console.log(newPAequor1);
+console.log(newPAequor2);
+// newPAequor1.mutate();
+// console.log(newPAequor1);
 
 
 
