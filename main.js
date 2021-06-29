@@ -24,6 +24,7 @@ const pAequorFactory = (specimenNum, dna) => {
         newBase = returnRandBase();
       }
       this.dna[randBaseIndex] = newBase;
+      return this.dna;
     },
     compare (object) {
       const sharedBases = object.dna.filter((base, index) => {
@@ -33,22 +34,43 @@ const pAequorFactory = (specimenNum, dna) => {
       return `Specimen #${this.specimenNum} and specimen #${object.specimenNum} have ${percentSharedBases}% DNA in common.`;
     },
     willLikelySurvive () {
-      const onlyCGBases = this.dna.filter(base => (base === 'C' || base === 'G'));
+      const onlyCGBases = this.dna.filter(base => base === 'C' || base === 'G');
       const percentCG = Math.round((onlyCGBases.length/this.dna.length) * 100);
-      console.log(percentCG);
       return percentCG >= 60;
     }
   };
 };
-const newPAequor1 = pAequorFactory(1, mockUpStrand())
-const newPAequor2 = pAequorFactory(2, mockUpStrand())
+
+const create30SurvivableSpecimens = () => {
+  const specimens = [];
+  let specimenNum = 1;
+  while (specimens.length < 30) {
+    const newSpecimen = pAequorFactory(specimenNum, mockUpStrand());
+    if (newSpecimen.willLikelySurvive()) specimens.push(newSpecimen);
+    specimenNum++;
+  }
+  return specimens;
+}
+
+// Below is code I used to test the code above:
+
+// const printSurvivability = specimens => {
+//   specimens.forEach(specimen => {
+//     console.log(`#${specimen.specimenNum}: ${specimen.willLikelySurvive()}`);
+//   })
+// }
+
+// const newPAequor1 = pAequorFactory(1, mockUpStrand())
+// const newPAequor2 = pAequorFactory(2, mockUpStrand())
 // console.log(newPAequor1.compare(newPAequor2));
 
-console.log(newPAequor1.willLikelySurvive());
-console.log(newPAequor1);
+// console.log(newPAequor1.willLikelySurvive());
+// console.log(newPAequor1);
 // console.log(newPAequor2);
 // newPAequor1.mutate();
 // console.log(newPAequor1);
+
+// printSurvivability(create30SurvivableSpecimens());
 
 
 
